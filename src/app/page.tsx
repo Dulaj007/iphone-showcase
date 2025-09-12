@@ -1,4 +1,11 @@
+import HeroSection from "@/components/sections/heroSection";
+import ProductSection from "@/components/sections/productSection";
+
 export default function HomePage() {
-  throw new Error("Test error!"); // <-- this will trigger your error.tsx
-  return <div>Homepage content</div>;
+  return (
+    <>
+      <HeroSection />
+      <ProductSection />
+    </>
+  );
 }
