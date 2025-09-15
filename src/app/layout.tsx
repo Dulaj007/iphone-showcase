@@ -1,5 +1,5 @@
 import "./globals.css";
-import Cursor from "@/components/ui/cursor";
+//import Cursor from "@/components/ui/cursor";
 import Navbar from "@/components/partials/navBar";
 import Footer from "@/components/partials/footer";
 
@@ -16,10 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-gray-900 text-white">
-        <Cursor />
+   
         <Navbar />
         {children}
-        <Footer />
+ 
       </body>
     </html>
   );
