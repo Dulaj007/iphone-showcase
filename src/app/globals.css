@@ -6,6 +6,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --white:#ffffff;
+  --dark:#000000;
+  --dark-second:#171717;
+  --orange:#C05D24;
+  --light-orange: #ff7300;
 }
 
 @theme inline {
@@ -21,10 +26,97 @@
     --foreground: #ededed;
   }
 }
+@font-face {
+  font-family: 'InterLight';
+  src: url('/fonts/Inter_28pt-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
   
+  overflow-x: hidden;
+  font-family: 'InterLight', Arial, Helvetica, sans-serif;
+  
+}
+
+.title, .description {
+  font-family: 'InterLight', sans-serif;
+}
+
+@keyframes gradient-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.bg-gradient-animate {
+  background-size: 200% 200%;
+  animation: gradient-move 3s ease infinite;
+}
+
+  @keyframes shine {
+    0% {
+      background-position: -200% center;
+    }
+    50% {
+      background-position: 200% center;
+    }
+    100% {
+      background-position: -200% center;
+    }
+  }
+
+  .animate-shine {
+    background-size: 200% auto;
+    animation: shine 4s linear infinite;
+  }
+
+
+
+
+
+  
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.card-border-animated::before,
+.card-border-animated::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 24px; /* match your glass card */
+  z-index: -1;
+  background-image: conic-gradient(from var(--angle), transparent 15%, white);
+  animation: spin 3s linear infinite;
+  padding: 3px;
+}
+
+.card-border-animated::before {
+  filter: blur(1.5rem);
+  opacity: 0.5;
+}
+
+@keyframes spin {
+  from { --angle: 0deg; }
+  to { --angle: 360deg; }
+}
+
+
+@keyframes gradient-x {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 3s ease infinite;
 }
