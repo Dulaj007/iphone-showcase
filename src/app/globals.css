@@ -1,31 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/* =========================================================
+   🎨 Root Theme Configuration
+   ========================================================= */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --white:#ffffff;
-  --dark:#000000;
-  --dark-second:#171717;
-  --orange:#C05D24;
-  --light-orange: #ff7300;
+  /* Base Colors (Dark Mode Focused) */
+  --color-bg: #0a0a0a;
+  --color-bg-secondary: #171717;
+  --color-text: #ededed;
+  --color-text-muted: #b3b3b3;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Accent Colors */
+  --color-primary: #C05D24;
+  --color-primary-light: #ff7300;
+  --color-accent: #ff8a50;
+  --color-yellow: #FACC15;
+  --color-orange:#F97316; 
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+/* =========================================================
+   🌙 Light Mode Override
+   ========================================================= */
+@media (prefers-color-scheme: light) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-bg: #ffffff;
+    --color-bg-secondary: #f5f5f5;
+    --color-text: #171717;
+    --color-text-muted: #444444;
   }
 }
+
+/* =========================================================
+   ✍️ Typography
+   ========================================================= */
 @font-face {
   font-family: 'InterLight';
   src: url('/fonts/Inter_28pt-Light.ttf') format('truetype');
@@ -33,18 +50,23 @@
   font-style: normal;
 }
 
-
 body {
-  
   overflow-x: hidden;
-  font-family: 'InterLight', Arial, Helvetica, sans-serif;
-  
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'InterLight', 'Inter', Arial, Helvetica, sans-serif;
 }
 
-.title, .description {
-  font-family: 'InterLight', sans-serif;
+.title,
+.description {
+  font-family: 'InterLight', 'Inter', sans-serif;
 }
 
+/* =========================================================
+   ✨ Animated Utilities
+   ========================================================= */
+
+/* Gradient Movement */
 @keyframes gradient-move {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -56,28 +78,19 @@ body {
   animation: gradient-move 3s ease infinite;
 }
 
-  @keyframes shine {
-    0% {
-      background-position: -200% center;
-    }
-    50% {
-      background-position: 200% center;
-    }
-    100% {
-      background-position: -200% center;
-    }
-  }
+/* Shiny Effect */
+@keyframes shine {
+  0% { background-position: -200% center; }
+  50% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
 
-  .animate-shine {
-    background-size: 200% auto;
-    animation: shine 4s linear infinite;
-  }
+.animate-shine {
+  background-size: 200% auto;
+  animation: shine 4s linear infinite;
+}
 
-
-
-
-
-  
+/* Animated Border */
 @property --angle {
   syntax: "<angle>";
   initial-value: 0deg;
@@ -88,14 +101,15 @@ body {
 .card-border-animated::after {
   content: '';
   position: absolute;
+  inset: 0;
+  transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 24px; /* match your glass card */
+  border-radius: 24px;
   z-index: -1;
-  background-image: conic-gradient(from var(--angle), transparent 15%, white);
+  background-image: conic-gradient(from var(--angle), transparent 15%, var(--color-white));
   animation: spin 3s linear infinite;
   padding: 3px;
 }
@@ -110,7 +124,7 @@ body {
   to { --angle: 360deg; }
 }
 
-
+/* Horizontal Gradient Animation */
 @keyframes gradient-x {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
