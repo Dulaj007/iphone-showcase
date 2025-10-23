@@ -18,7 +18,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Default scroll settings reused across animations
 const defaultScroll = {
-  trigger: document.getElementById("hero")!,
+
   start: "top top",
   end: "+=1100",
   scrub: 0.8,
@@ -71,7 +71,8 @@ function CameraAnimator() {
 
   useScrollTrigger(() => {
     const tl = gsap.timeline({
-      scrollTrigger: { ...defaultScroll },
+      scrollTrigger: {
+        trigger: document.getElementById("hero")!, ...defaultScroll },
     });
 
     // Slide camera left as the user scrolls
@@ -226,13 +227,15 @@ function IPhoneModel() {
 function BackgroundText() {
   const textRef = useRef<THREE.Mesh>(null!);
 
-  useScrollTrigger(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        ...defaultScroll,
+
+useScrollTrigger((triggerEl) => {
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: triggerEl, // <- use the passed element
+      ...defaultScroll,
         onLeave: () => (textRef.current.visible = false),
         onEnterBack: () => (textRef.current.visible = true),
-      },
+    },
     });
 
     // Animate text sliding left
@@ -246,6 +249,7 @@ function BackgroundText() {
     return tl;
   }, []);
 
+  
   return (
     <Text
       ref={textRef}
@@ -274,25 +278,26 @@ function BackgroundText() {
 function HorizonLine() {
   const meshRef = useRef<THREE.Mesh>(null!);
 
-  useScrollTrigger(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-       ...defaultScroll,
-        onLeave: () => (meshRef.current.visible = false),
-        onEnterBack: () => (meshRef.current.visible = true),
-      },
-    });
+useScrollTrigger((triggerEl) => {
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: triggerEl, // <- use the passed element
+      ...defaultScroll,
+      onLeave: () => (meshRef.current.visible = false),
+      onEnterBack: () => (meshRef.current.visible = true),
+    },
+  });
 
-    // Shift horizon plane horizontally with scroll
-    tl.to(meshRef.current.position, {
-      x: -15,
-      duration: 1.5,
-      ease: "power2.inOut",
-      delay: 0.5,
-    });
+  tl.to(meshRef.current.position, {
+    x: -15,
+    duration: 1.5,
+    ease: "power2.inOut",
+    delay: 0.5,
+  });
 
-    return tl;
-  }, []);
+  return tl;
+}, []);
+
 
   return (
     <mesh
