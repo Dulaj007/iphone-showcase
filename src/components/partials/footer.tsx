@@ -1,91 +1,161 @@
-"use client";
+import Link from "next/link";
 
-import { useRef, useState, useEffect } from "react";
-import PhoneAnimation from "@/components/3d/HeroCanvas";
-import TestSection from "@/components/sections/GlowHeroSection";
-import Stats from "stats.js";
-import IntroSection from "@/components/sections/IntroductionSection";
-import IntroducingSection from "@/components/sections/introducingSection";
-import ProductFeatures from "@/components/sections/productFeatures";
-import HighlightsSection from "@/components/sections/HighlightsSection";
+/**
+ * ============================================================
+ * Footer 
+ * ============================================================
+ * Description:
+ * A responsive footer replicating the Apple website’s layout.
+ * Uses CSS variables for color theming and structured organization
+ * with semantically clear section groups and accessibility considerations.
+ *
+ * Features:
+ * - Responsive grid layout with multiple informational sections
+ * - Structured JSON LD data for SEO
+ * - Reusable color theme integration using CSS variables
+ * - Adaptive design with modern Tailwind utility classes
+ */
 
-export default function HomePage() {
-  const heroRef = useRef<HTMLDivElement | null>(null);
-  const shortSectionRef = useRef<HTMLDivElement | null>(null);
-  const [showHeroCanvas, setShowHeroCanvas] = useState(true);
-  const statsRef = useRef<Stats | null>(null);
-
-  useEffect(() => {
-    const stats = new Stats();
-    stats.showPanel(0); // 0: fps
-    stats.dom.style.position = "fixed";
-    stats.dom.style.top = "0px";
-    stats.dom.style.left = "0px";
-    stats.dom.style.zIndex = "9999";
-    document.body.appendChild(stats.dom);
-    statsRef.current = stats;
-
-    const animate = () => {
-      stats.begin();
-      stats.end();
-      requestAnimationFrame(animate);
-    };
-    requestAnimationFrame(animate);
-
-    return () => {
-      document.body.removeChild(stats.dom);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!shortSectionRef.current) return;
-
-      const shortSectionTop = shortSectionRef.current.getBoundingClientRect().top;
-
-      if (shortSectionTop <= 0 && showHeroCanvas) {
-        setShowHeroCanvas(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [showHeroCanvas]);
+export default function Footer() {
+  const sections = [
+    {
+      title: "Shop and Learn",
+      links: [
+        "Store", "Mac", "iPad", "iPhone", "Watch", "Vision", "AirPods",
+        "TV & Home", "AirTag", "Accessories", "Gift Cards",
+      ],
+    },
+    {
+      title: "Apple Wallet",
+      links: ["Wallet", "Apple Card", "Apple Pay", "Apple Cash"],
+    },
+    {
+      title: "Account",
+      links: [
+        "Manage Your Apple Account", "Apple Store Account", "iCloud.com",
+      ],
+    },
+    {
+      title: "Entertainment",
+      links: [
+        "Apple One", "Apple TV+", "Apple Music", "Apple Arcade",
+        "Apple Fitness+", "Apple News+", "Apple Podcasts",
+        "Apple Books", "App Store",
+      ],
+    },
+    {
+      title: "Apple Store",
+      links: [
+        "Find a Store", "Genius Bar", "Today at Apple", "Group Reservations",
+        "Apple Camp", "Apple Store App", "Certified Refurbished",
+        "Apple Trade In", "Financing", "Carrier Deals at Apple",
+        "Order Status", "Shopping Help",
+      ],
+    },
+    {
+      title: "For Business",
+      links: ["Apple and Business", "Shop for Business"],
+    },
+    {
+      title: "For Education",
+      links: [
+        "Apple and Education", "Shop for K-12", "Shop for College",
+      ],
+    },
+    {
+      title: "For Healthcare",
+      links: ["Apple and Healthcare"],
+    },
+    {
+      title: "For Government",
+      links: [
+        "Apple and Government", "Shop for Veterans and Military",
+        "Shop for State and Local Employees", "Shop for Federal Employees",
+      ],
+    },
+    {
+      title: "Apple Values",
+      links: [
+        "Accessibility", "Education", "Environment", "Inclusion and Diversity",
+        "Privacy", "Racial Equity and Justice", "Supply Chain Innovation",
+      ],
+    },
+    {
+      title: "About Apple",
+      links: [
+        "Newsroom", "Apple Leadership", "Career Opportunities", "Investors",
+        "Ethics & Compliance", "Events", "Contact Apple",
+      ],
+    },
+  ];
 
   return (
-    <main>
-      <section
-        ref={heroRef}
-        id="hero"
-        className="relative w-full h-[1000px] bg-black flex items-center justify-center"
-      >
-        {showHeroCanvas ? <PhoneAnimation /> : <TestSection />}
-      </section>
+    <footer className="bg-[var(--color-white)]/95 relative border-t border-[var(--color-black)]/20 backdrop-blur-md text-[var(--color-black)]/80 text-sm">
+      {/* Structured Data for Search Engines */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Apple Inc.",
+            url: "https://www.apple.com",
+            sameAs: [
+              "https://www.facebook.com/apple",
+              "https://twitter.com/apple",
+              "https://www.instagram.com/apple/",
+            ],
+          }),
+        }}
+      />
 
-      <section
-        ref={shortSectionRef}
-        className="w-full "
-      >
-<IntroSection/>
-      </section>
+      {/* Footer Content Container */}
+      <div className="max-w-7xl mx-auto px-6 py-10">
+        {/* Section Columns */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6 gap-8">
+          {sections.map((section) => (
+            <div key={section.title}>
+              <h3 className="font-semibold mb-2 text-[var(--color-black)]">
+                {section.title}
+              </h3>
+              <ul className="space-y-1">
+                {section.links.map((link) => (
+                  <li key={link}>
+                    <Link
+                      href="#"
+                      className="hover:underline hover:text-[var(--color-black)] transition-colors"
+                    >
+                      {link}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
 
-      <section className="">
-     <HighlightsSection/>
-      </section>
-      <div className="relative w-full h-64">
-  <div className="absolute inset-0">
-    <div className="w-full h-full backdrop-blur-md bg-white/10" style={{ WebkitMaskImage: 'url(#mask)', maskImage: 'url(#mask)', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat', WebkitMaskSize: 'cover', maskSize: 'cover' }}></div>
-  </div>
+        {/* Bottom Footer Bar */}
+        <div className="mt-10 pt-6 border-t border-[var(--color-black)]/20 text-xs flex flex-col md:flex-row justify-between items-center gap-3">
+          <p className="text-[var(--color-black)]/80">
+            © {new Date().getFullYear()} Apple Inc. All rights reserved.
+          </p>
 
-  <svg width="0" height="0">
-    <defs>
-      <mask id="mask" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox">
-        <path d="M0,0 H1 V0.6 Q0.5,1 0,0.6 Z" fill="white" />
-      </mask>
-    </defs>
-  </svg>
-</div>
+          {/* Policy Links */}
+          <div className="flex flex-wrap justify-center gap-3 text-[var(--color-black)]/80 hover:text-[var(--color-black)]">
+            <Link href="#" className="hover:underline ">Privacy Policy</Link>
+            <span>•</span>
+            <Link href="#" className="hover:underline ">Terms of Use</Link>
+            <span>•</span>
+            <Link href="#" className="hover:underline ">Sales and Refunds</Link>
+            <span>•</span>
+            <Link href="#" className="hover:underline ">Legal</Link>
+            <span>•</span>
+            <Link href="#" className="hover:underline ">Site Map</Link>
+          </div>
 
-    </main>
+          <p className="text-[var(--color-black)]/80">United States</p>
+        </div>
+      </div>
+    </footer>
   );
 }
